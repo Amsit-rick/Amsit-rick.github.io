@@ -15,6 +15,12 @@ button:disabled{opacity:.45;cursor:default}
 .hero>*,.evidence>*,.project{min-width:0}
 .hero-example-action{margin-top:28px}
 .text-link{display:inline-flex;align-items:center;gap:7px;color:var(--cyan);font-size:13px;margin-top:18px;background:none;border:0;padding:0;text-align:left;cursor:pointer}
+.project .project-subtitle{color:var(--cyan);font-size:13px;margin-top:0}
+.project-highlights{padding-left:18px;color:var(--text);font-size:13px;line-height:1.9;margin:22px 0}
+.project-details{margin-top:24px;border-top:1px solid var(--line);padding-top:16px;font-size:13px}
+.project-details summary{cursor:pointer;color:var(--cyan)}
+.project-details .project-flow{padding:14px;background:var(--panel);border-left:2px solid var(--cyan);color:var(--text);line-height:1.9}
+.project-details small{color:var(--muted);overflow-wrap:anywhere}
 .evidence-list{display:grid;gap:0}
 .evidence-list>button{position:relative;padding:17px 28px 17px 0;background:none;border:0;border-bottom:1px solid var(--line);color:var(--text);text-align:left;cursor:pointer}
 .evidence-list>button:first-child{border-top:1px solid var(--line)}

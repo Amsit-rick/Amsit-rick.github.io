@@ -27,7 +27,7 @@ async function main() {
     try { browser = await chromium.launch({ headless: true }) }
     catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }) }
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } })
-    const url = `http://127.0.0.1:${server.address().port}${prefix}/`
+    const url = process.env.TEST_SITE_URL || `http://127.0.0.1:${server.address().port}${prefix}/`
     const apiRequests = [], externalRequests = [], failedResponses = [], errors = []
     page.on('request', request => {
       if (request.url().includes('/api/')) apiRequests.push(request.url())
@@ -37,6 +37,16 @@ async function main() {
     page.on('pageerror', error => errors.push(error.message))
     await page.goto(url, { waitUntil: 'networkidle' })
     await page.getByRole('heading', { name: '从一个工程问题开始。' }).waitFor()
+    const projects = page.locator('#projects article')
+    assert.equal(await projects.count(), 2)
+    assert.match(await projects.nth(0).innerText(), /Query Pilot/)
+    assert.match(await projects.nth(1).innerText(), /电商售后工单智能处理系统/)
+    assert.equal(await projects.nth(0).locator('a').getAttribute('href'), 'https://github.com/Amsit-rick/QueryPilot')
+    assert.equal(await projects.nth(1).locator('a').getAttribute('href'), 'https://github.com/Amsit-rick/product-insight-copilot')
+    for (let index = 0; index < 2; index++) {
+      await projects.nth(index).locator('summary').click()
+      assert.equal(await projects.nth(index).locator('.project-flow').isVisible(), true)
+    }
     assert.equal(await page.locator('.question-list button').count(), 10)
     assert.equal(await page.locator('.architecture img').evaluate(image => image.complete && image.naturalWidth > 0), true)
     for (let index = 0; index < 10; index++) {
@@ -87,7 +97,7 @@ async function main() {
     assert.deepEqual(externalRequests, [])
     assert.deepEqual(failedResponses, [])
     assert.deepEqual(errors, [])
-    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'clear', 'reload', 'architecture', 'public notes', 'responsive 1440/390/320', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
+    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'clear', 'reload', 'architecture', 'public notes', 'responsive 1440/390/320', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
   } finally {
     if (browser) await browser.close()
     await new Promise(resolve => server.close(resolve))
