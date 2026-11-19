@@ -2,6 +2,8 @@
 
 个人作品集与 Interview Copilot 静态问答演示。
 
+在线访问：[amsit-rick.github.io](https://amsit-rick.github.io/)
+
 - 10 个预置工程问答与关键词匹配
 - 可展开的公开工程证据
 - 系统架构图与实现边界

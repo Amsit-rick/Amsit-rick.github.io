@@ -30,7 +30,7 @@ python -m http.server 4173 --bind 127.0.0.1 --directory out
 - 工作流通过 `actions/configure-pages` 提供的 `base_path` 自动配置资源前缀，同时兼容两种地址。修改仓库名后重新构建。
 - 如果使用自定义域名，先在 Pages 设置中配置后重新运行工作流。
 
-当前仓库 origin 指向 Gitee。此次只准备了本地代码，没有修改远端、创建 GitHub 仓库或推送任何内容。
+主项目 origin 仍指向 Gitee。2026-11-19 已从独立发布目录 `publish/github-pages` 将审核后的静态前端推送到 `https://github.com/Amsit-rick/Amsit-rick.github.io`。GitHub Pages 使用 Actions，公开站点为 `https://amsit-rick.github.io/`，已观察到成功部署并验证线上问答和引用弹窗。
 
 ## 首次发布步骤
 
