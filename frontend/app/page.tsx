@@ -1,7 +1,7 @@
 "use client"
 
 import { FormEvent, useEffect, useRef, useState } from 'react'
-import { ArrowUpRight, CircleCheck, Send, ShieldCheck } from 'lucide-react'
+import { ArrowUpRight, CircleCheck, Database, Github, Headset, Send, ShieldCheck } from 'lucide-react'
 import { demoAnswers, evidence, EvidenceId, findDemoAnswer } from './demo-data'
 import LivePortfolio from './live-portfolio'
 import { featuredProjects } from './featured-projects'
@@ -46,7 +46,16 @@ function StaticPortfolio() {
       <div className="hero-chat"><div className="chat-head"><span><b className="status-dot"/> 明林项目助手</span><span className="chat-status">静态演示</span></div><div className="terminal-body"><p className="muted">预置问答示例 · 非实时模型生成</p><p><i>question</i> 为什么使用混合检索？</p><p>关键词召回精确匹配专有名词，向量召回补充语义表达，再用 RRF 合并排序。</p><button className="citation-link" onClick={() => openEvidence('retrieval')}>查看来源 · hybrid_search ↗</button><div className="hero-example-action"><a className="secondary" href="#ask">浏览 10 个工程问题 <ArrowUpRight size={16}/></a></div></div></div>
     </section>
     <section className="section" id="projects"><div className="eyebrow">SELECTED WORK</div><h2>两个场景，两种 Agent 实践。</h2><p className="muted">从数据查询到售后工单，把检索、工具调用与人工审核放进具体业务流程。这里展示项目介绍与源码，实际运行需部署各自的服务。</p><div className="project-grid">
-      {featuredProjects.map(project => <article className="project" key={project.id} id={project.id}><span className="index">{project.label}</span><h3>{project.title}</h3><p className="project-subtitle">{project.subtitle}</p><p>{project.description}</p><ul className="project-highlights">{project.highlights.map(item => <li key={item}>{item}</li>)}</ul><div className="proof">{project.stack}</div><details className="project-details"><summary>展开项目流程与工程要点</summary><p className="project-flow">{project.flow}</p><p>{project.engineering}</p><small>说明依据：{project.source}</small></details><a className="text-link" href={project.repository} target="_blank" rel="noreferrer">查看 GitHub 源码 <ArrowUpRight size={15}/></a></article>)}
+      {featuredProjects.map((project, index) => <article className={`project project-card project-card-${index + 1}`} key={project.id} id={project.id} aria-labelledby={`${project.id}-title`}>
+        <header className="project-card-header">
+          <div className="project-card-top"><span className="project-icon" aria-hidden="true">{index === 0 ? <Database size={26}/> : <Headset size={26}/>}</span><span className="project-number">项目 {String(index + 1).padStart(2, '0')}</span></div>
+          <span className="index">{project.label.split(' · ')[1]}</span>
+          <h3 id={`${project.id}-title`}>{project.title}</h3>
+          <p className="project-subtitle">{project.subtitle}</p>
+        </header>
+        <div className="project-card-content"><p className="project-description">{project.description}</p><ul className="project-highlights">{project.highlights.map(item => <li key={item}><CircleCheck size={15} aria-hidden="true"/><span>{item}</span></li>)}</ul><div className="project-stack" aria-label="技术栈">{project.stack.split(' · ').map(item => <span key={item}>{item}</span>)}</div><details className="project-details"><summary>展开项目流程与工程要点</summary><p className="project-flow">{project.flow}</p><p>{project.engineering}</p><small>说明依据：{project.source}</small></details></div>
+        <footer className="project-card-footer"><a className="project-source" href={project.repository} target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true"/> 查看 GitHub 源码 <ArrowUpRight size={17} aria-hidden="true"/></a><span>开源项目</span></footer>
+      </article>)}
     </div></section>
     <section className="evidence" id="evidence"><div><div className="eyebrow">ENGINEERING EVIDENCE</div><h2>每个说明，<br/>都能继续追溯。</h2><p>这些摘要对应仓库中的具体模块。此页面不展示未经确认的业务收益、个人贡献比例或生产测试通过率。</p><a className="text-link" href={asset('evidence/project-notes.md')}>阅读公开工程说明 <ArrowUpRight size={15}/></a></div><div className="evidence-list">{(Object.keys(evidence) as EvidenceId[]).map(id => <button key={id} onClick={() => openEvidence(id)}><span>{evidence[id].title}</span><small>{evidence[id].location}</small><ArrowUpRight size={16}/></button>)}</div></section>
     <section className="section architecture" id="architecture"><div className="eyebrow">SYSTEM ARCHITECTURE</div><h2>浏览器里的展示，服务端的能力。</h2><p className="muted">图中下半部分为本地完整版本；本静态站不连接这些后端服务。</p><a href={asset('evidence/architecture.svg')} target="_blank" rel="noreferrer" aria-label="在新窗口查看完整系统架构图"><img src={asset('evidence/architecture.svg')} width="1040" height="540" alt="公开静态站只在浏览器内匹配预置问答；完整本地版本由 Next.js 调用 FastAPI，再连接 DeepSeek、MySQL、Redis、Qdrant 和 FastEmbed。"/></a></section>
