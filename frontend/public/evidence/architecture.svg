@@ -1,20 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1040" height="540" viewBox="0 0 1040 540" role="img" aria-labelledby="title desc">
  <title id="title">Interview Copilot：静态演示与本地完整版本</title>
  <desc id="desc">静态页面在浏览器内匹配预置问答，不连接模型或数据库。本地完整版本从 Next.js 连接 FastAPI，再使用检索、模型和存储服务。</desc>
- <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#67e8f9"/></marker></defs>
- <rect width="1040" height="540" fill="#0b0f14"/>
- <g font-family="Arial,Microsoft YaHei,sans-serif" fill="#e8eef5">
-  <text x="36" y="42" fill="#67e8f9" font-size="16">01 / 当前公开静态演示</text>
-  <g fill="#111820" stroke="#25303b"><rect x="36" y="65" width="280" height="80" rx="4"/><rect x="380" y="65" width="280" height="80" rx="4"/><rect x="724" y="65" width="280" height="80" rx="4"/></g>
+ <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#d4ed9b"/></marker></defs>
+ <rect width="1040" height="540" fill="#111610"/>
+ <g font-family="Arial,Microsoft YaHei,sans-serif" fill="#f0f2eb">
+  <text x="36" y="42" fill="#d4ed9b" font-size="16">01 / 当前公开静态演示</text>
+  <g fill="#1b2218" stroke="#3d4935"><rect x="36" y="65" width="280" height="80" rx="7"/><rect x="380" y="65" width="280" height="80" rx="7"/><rect x="724" y="65" width="280" height="80" rx="7"/></g>
   <g font-size="18" text-anchor="middle"><text x="176" y="98">GitHub Pages</text><text x="520" y="98">浏览器内关键词匹配</text><text x="864" y="98">预置回答 + 公开证据</text></g>
-  <g fill="#8a98a8" font-size="13" text-anchor="middle"><text x="176" y="124">HTML / CSS / JavaScript</text><text x="520" y="124">10 个预置问题 · 无 API 请求</text><text x="864" y="124">输入仅在页面内存中保留</text></g>
-  <g stroke="#67e8f9" fill="none" marker-end="url(#arrow)"><path d="M316 105H370"/><path d="M660 105H714"/></g>
-  <path d="M36 186H1004" stroke="#25303b" stroke-dasharray="5 6"/>
-  <text x="36" y="226" fill="#67e8f9" font-size="16">02 / 本地完整版本（当前静态站不连接）</text>
-  <g fill="#111820" stroke="#25303b"><rect x="36" y="258" width="240" height="76" rx="4"/><rect x="370" y="258" width="300" height="76" rx="4"/><rect x="764" y="258" width="240" height="76" rx="4"/><rect x="36" y="409" width="280" height="85" rx="4"/><rect x="380" y="409" width="280" height="85" rx="4"/><rect x="724" y="409" width="280" height="85" rx="4"/></g>
+  <g fill="#a7aea3" font-size="13" text-anchor="middle"><text x="176" y="124">HTML / CSS / JavaScript</text><text x="520" y="124">10 个预置问题 · 无 API 请求</text><text x="864" y="124">输入仅在页面内存中保留</text></g>
+  <g stroke="#d4ed9b" fill="none" marker-end="url(#arrow)"><path d="M316 105H370"/><path d="M660 105H714"/></g>
+  <path d="M36 186H1004" stroke="#3d4935" stroke-dasharray="5 6"/>
+  <text x="36" y="226" fill="#d4ed9b" font-size="16">02 / 本地完整版本（当前静态站不连接）</text>
+  <g fill="#1b2218" stroke="#3d4935"><rect x="36" y="258" width="240" height="76" rx="7"/><rect x="370" y="258" width="300" height="76" rx="7"/><rect x="764" y="258" width="240" height="76" rx="7"/><rect x="36" y="409" width="280" height="85" rx="7"/><rect x="380" y="409" width="280" height="85" rx="7"/><rect x="724" y="409" width="280" height="85" rx="7"/></g>
   <g font-size="18" text-anchor="middle"><text x="156" y="291">Next.js / React</text><text x="520" y="291">FastAPI</text><text x="884" y="291">DeepSeek API</text><text x="176" y="444">MySQL</text><text x="520" y="444">Redis</text><text x="864" y="444">Qdrant + FastEmbed</text></g>
-  <g fill="#8a98a8" font-size="13" text-anchor="middle"><text x="156" y="316">本地交互界面</text><text x="520" y="316">路由 / 检索 / 引用 / 分块 SSE</text><text x="884" y="316">完整回答生成</text><text x="176" y="472">会话 / 消息 / 引用 / 执行记录</text><text x="520" y="472">请求限流</text><text x="864" y="472">向量索引 / 本地 Embedding</text></g>
-  <g stroke="#67e8f9" fill="none" marker-end="url(#arrow)"><path d="M276 296H360"/><path d="M670 296H754"/><path d="M520 334V372H176V399"/><path d="M520 372V399"/><path d="M520 372H864V399"/></g>
-  <text x="36" y="522" fill="#8a98a8" font-size="12">架构说明，不代表公网生产验收；接口鉴权与会话隔离仍需完善。</text>
+  <g fill="#a7aea3" font-size="13" text-anchor="middle"><text x="156" y="316">本地交互界面</text><text x="520" y="316">路由 / 检索 / 引用 / 分块 SSE</text><text x="884" y="316">完整回答生成</text><text x="176" y="472">会话 / 消息 / 引用 / 执行记录</text><text x="520" y="472">请求限流</text><text x="864" y="472">向量索引 / 本地 Embedding</text></g>
+  <g stroke="#d4ed9b" fill="none" marker-end="url(#arrow)"><path d="M276 296H360"/><path d="M670 296H754"/><path d="M520 334V372H176V399"/><path d="M520 372V399"/><path d="M520 372H864V399"/></g>
+  <text x="36" y="522" fill="#a7aea3" font-size="12">架构说明，不代表公网生产验收；接口鉴权与会话隔离仍需完善。</text>
  </g>
 </svg>

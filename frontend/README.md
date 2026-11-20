@@ -21,6 +21,10 @@ python -m http.server 4173 --bind 127.0.0.1 --directory out
 
 静态内容维护：`app/demo-data.ts`（问答与证据）、`public/evidence/project-notes.md`（公开说明）、`public/evidence/architecture.svg`（架构图）。页面和数据不能导入后端配置或原始简历。
 
+作品集界面：`app/page.tsx` 组织首页；`app/portfolio-components.tsx` 维护导航、徽章、分区标题、项目卡片与首屏概览；`app/portfolio.css` 提供作用于 `.portfolio` 的颜色、排版、按钮和响应式样式，避免影响保留的本地在线界面。设计参考 shadcn/ui 的组件组合方式，当前没有安装完整 shadcn/Tailwind 依赖。项目资料在 `app/featured-projects.ts` 维护，流程图为明确标注的示意，不是产品截图。
+
+手机端导航支持展开、选择与 Esc 关闭；预置问题会将回答滚动到可见位置。问答输入支持 Enter 发送、Shift + Enter 换行，并避开中文输入法组合态。使用 `node scripts/smoke-static.cjs` 可回归主要交互（需环境中提供 Playwright），设置 `TEST_SITE_URL` 可检查公网版本。
+
 仅在本机恢复原有在线界面：
 
 ```cmd

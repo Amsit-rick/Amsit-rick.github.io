@@ -48,7 +48,8 @@ async function main() {
       assert.equal(await projects.nth(index).locator('.project-flow').isVisible(), true)
     }
     assert.equal(await page.locator('.question-list button').count(), 10)
-    assert.equal(await page.locator('.architecture img').evaluate(image => image.complete && image.naturalWidth > 0), true)
+    await page.locator('.architecture img').scrollIntoViewIfNeeded()
+    await page.waitForFunction(() => { const image = document.querySelector('.architecture img'); return image.complete && image.naturalWidth > 0 })
     for (let index = 0; index < 10; index++) {
       await page.locator('.question-list button').nth(index).click()
       assert.equal(await page.locator('.bubble.assistant').count(), index + 1)
@@ -69,6 +70,13 @@ async function main() {
     await page.getByLabel('输入项目问题').fill('为什么使用混合检索')
     await page.getByRole('button', { name: '发送问题', exact: true }).click()
     assert.match(await page.locator('.bubble.assistant').last().innerText(), /RRF/)
+    await page.getByLabel('输入项目问题').fill('SSE')
+    await page.getByLabel('输入项目问题').press('Shift+Enter')
+    assert.equal(await page.getByLabel('输入项目问题').inputValue(), 'SSE\n')
+    const beforeKeyboardSend = await page.locator('.bubble.assistant').count()
+    await page.getByLabel('输入项目问题').press('Enter')
+    assert.equal(await page.locator('.bubble.assistant').count(), beforeKeyboardSend + 1)
+    assert.match(await page.locator('.bubble.assistant').last().innerText(), /24 字符/)
     await page.getByLabel('输入项目问题').fill('Qdrant 宕机了怎么办')
     await page.getByRole('button', { name: '发送问题', exact: true }).click()
     assert.match(await page.locator('.bubble.assistant').last().innerText(), /返回关键词结果/)
@@ -81,6 +89,19 @@ async function main() {
     const shots = []
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 900 })
+      if (width < 761) {
+        const menu = page.getByRole('button', { name: '展开导航', exact: true })
+        await menu.click()
+        await page.keyboard.press('Escape')
+        assert.equal(await menu.getAttribute('aria-expanded'), 'false')
+        assert.equal(await menu.evaluate(element => element === document.activeElement), true)
+        await menu.click()
+        await page.locator('#site-navigation').getByRole('link', { name: '交互演示' }).click()
+        assert.equal(await menu.getAttribute('aria-expanded'), 'false')
+        await page.locator('.question-list button').nth(2).click()
+        assert.match(await page.locator('.bubble.assistant').last().innerText(), /RRF/)
+        await page.getByRole('button', { name: '清空对话' }).click()
+      }
       await page.evaluate(() => window.scrollTo(0, 0))
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Horizontal overflow at ${width}px`)
       const screenshot = path.join(os.tmpdir(), `interview-copilot-${prefix ? 'subpath' : 'root'}-${width}.png`)
@@ -97,7 +118,7 @@ async function main() {
     assert.deepEqual(externalRequests, [])
     assert.deepEqual(failedResponses, [])
     assert.deepEqual(errors, [])
-    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'clear', 'reload', 'architecture', 'public notes', 'responsive 1440/390/320', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
+    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'Enter send and Shift+Enter newline', 'clear', 'reload', 'architecture lazy loading', 'public notes', 'responsive 1440/390/320', 'mobile navigation selection, Escape and focus', 'mobile preset questions', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
   } finally {
     if (browser) await browser.close()
     await new Promise(resolve => server.close(resolve))
