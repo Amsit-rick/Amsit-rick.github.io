@@ -43,7 +43,7 @@ export const projectScopes: ProjectScope[] = [
       { id: 'send', question: '能绕过页面直接发送回复吗？', keywords: ['发送', '门禁', '绕过', '接口', '安全'], answer: '未获批准的建议在服务端接口层被拒绝发送，返回 409，而不是仅隐藏前端按钮。审批与发送门禁共同约束有业务后果的动作。本网站不会实际发送售后回复。', sources: ['service-controls'] },
     ],
   },
-  { id: 'portfolio', name: '作品集助手（本站）', description: '检索问答与作品集展示', placeholder: '试试“混合检索”“SSE”或“隐私”…', answers: demoAnswers, notes: evidence },
+  { id: 'portfolio', name: 'rick agent（本站）', description: '检索问答与作品集展示', placeholder: '试试“混合检索”“SSE”或“隐私”…', answers: demoAnswers, notes: evidence },
 ]
 
 export const allSourceNotes: Record<string, SourceNote> = Object.assign({}, ...projectScopes.map(scope => scope.notes))

@@ -61,7 +61,7 @@ async function main() {
       assert.match(await page.locator('.bubble.assistant').last().innerText(), /超出了/)
       assert.equal(await page.locator('.bubble.assistant').last().locator('.citation-link').count(), 0)
     }
-    await page.getByRole('radio', { name: '作品集助手（本站）' }).check()
+    await page.getByRole('radio', { name: 'rick agent（本站）' }).check()
     assert.equal(await page.locator('.bubble').count(), 0)
     const projects = page.locator('#projects article')
     assert.equal(await projects.count(), 2)
@@ -113,7 +113,7 @@ async function main() {
     assert.equal(await page.locator('.bubble').count(), 0)
     const shots = []
     assert.equal(await page.getByLabel('输入项目问题').isDisabled(), true)
-    await page.getByRole('radio', { name: '作品集助手（本站）' }).check()
+    await page.getByRole('radio', { name: 'rick agent（本站）' }).check()
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 900 })
       if (width < 761) {

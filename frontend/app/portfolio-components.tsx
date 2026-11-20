@@ -51,7 +51,7 @@ export function Navigation() {
     return () => { document.removeEventListener('keydown', close); media.removeEventListener('change', resize) }
   }, [open])
   return <header className="site-header"><nav className="site-nav container" aria-label="主导航">
-    <a className="site-brand" href="#top" aria-label="明林作品集首页" onClick={() => setOpen(false)}><span className="brand-symbol">m<span>.</span></span><span>明林<span className="brand-caption">AI APPLICATION ENGINEER</span></span></a>
+    <a className="site-brand" href="#top" aria-label="rick agent 首页" onClick={() => setOpen(false)}><span className="brand-symbol">r<span>.</span></span><span>rick agent<span className="brand-caption">AI APPLICATION ENGINEER</span></span></a>
     <div className={`desktop-nav ${open ? 'is-open' : ''}`} id="site-navigation">{navigation.map(item => <a key={item.id} href={`#${item.id}`} aria-current={active === item.id ? 'location' : undefined} onClick={() => setOpen(false)}>{item.label}</a>)}</div>
     <div className="nav-actions"><a className="nav-github" href={profileUrl} target="_blank" rel="noreferrer" aria-label="在新窗口访问 GitHub 主页"><Github size={18}/><span>GitHub</span><ArrowUpRight size={13}/></a><button className="menu-toggle" ref={toggle} aria-expanded={open} aria-controls="site-navigation" aria-label={open ? '收起导航' : '展开导航'} onClick={() => setOpen(!open)}>{open ? <X size={21}/> : <Menu size={21}/>}</button></div>
   </nav></header>
