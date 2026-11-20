@@ -37,6 +37,32 @@ async function main() {
     page.on('pageerror', error => errors.push(error.message))
     await page.goto(url, { waitUntil: 'networkidle' })
     await page.getByRole('heading', { name: '从一个工程问题开始。' }).waitFor()
+    assert.equal(await page.getByLabel('输入项目问题').isDisabled(), true)
+    assert.equal(await page.locator('.question-list button').count(), 0)
+    for (const source of [
+      { name: 'Query Pilot', count: 6, content: /SQL|Schema|DataTask/, citation: /Query Pilot/ },
+      { name: '售后工单 Copilot', count: 6, content: /售后|审批|政策|订单/, citation: /电商售后工单智能处理系统/ },
+    ]) {
+      await page.getByRole('radio', { name: source.name }).check()
+      assert.equal(await page.locator('.bubble').count(), 0)
+      assert.equal(await page.locator('.question-list button').count(), source.count)
+      for (let index = 0; index < source.count; index++) {
+        await page.locator('.question-list button').nth(index).click()
+        assert.match(await page.locator('.bubble.assistant').last().innerText(), source.content)
+        assert.match(await page.locator('.bubble.assistant').last().locator('.citation-link').first().innerText(), source.citation)
+      }
+      await page.locator('.bubble.assistant').last().locator('.citation-link').first().click()
+      await page.locator('dialog[open]').waitFor()
+      assert.match(await page.locator('#evidence-title').innerText(), source.citation)
+      assert.match(await page.locator('dialog a').getAttribute('href'), /github.com\/Amsit-rick\//)
+      await page.keyboard.press('Escape')
+      await page.getByLabel('输入项目问题').fill('SSE')
+      await page.getByRole('button', { name: '发送问题', exact: true }).click()
+      assert.match(await page.locator('.bubble.assistant').last().innerText(), /超出了/)
+      assert.equal(await page.locator('.bubble.assistant').last().locator('.citation-link').count(), 0)
+    }
+    await page.getByRole('radio', { name: '作品集助手（本站）' }).check()
+    assert.equal(await page.locator('.bubble').count(), 0)
     const projects = page.locator('#projects article')
     assert.equal(await projects.count(), 2)
     assert.match(await projects.nth(0).innerText(), /Query Pilot/)
@@ -64,7 +90,7 @@ async function main() {
     await page.getByRole('button', { name: '关闭证据详情' }).click()
     await page.getByLabel('输入项目问题').fill('今天天气怎么样？')
     await page.getByRole('button', { name: '发送问题', exact: true }).click()
-    assert.match(await page.locator('.bubble.assistant').last().innerText(), /超出了当前预置演示/)
+    assert.match(await page.locator('.bubble.assistant').last().innerText(), /超出了.*当前预置演示/)
     assert.equal(await page.locator('.bubble.assistant').last().locator('.citation-link').count(), 0)
     await page.getByLabel('输入项目问题').fill('为什么使用混合检索')
     await page.getByRole('button', { name: '发送问题', exact: true }).click()
@@ -86,6 +112,8 @@ async function main() {
     await page.reload({ waitUntil: 'networkidle' })
     assert.equal(await page.locator('.bubble').count(), 0)
     const shots = []
+    assert.equal(await page.getByLabel('输入项目问题').isDisabled(), true)
+    await page.getByRole('radio', { name: '作品集助手（本站）' }).check()
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 900 })
       if (width < 761) {
@@ -117,7 +145,7 @@ async function main() {
     assert.deepEqual(externalRequests, [])
     assert.deepEqual(failedResponses, [])
     assert.deepEqual(errors, [])
-    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'Enter send and Shift+Enter newline', 'clear', 'reload', 'homepage architecture removed', 'public notes', 'responsive 1440/390/320', 'mobile navigation selection, Escape and focus', 'mobile preset questions', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
+    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 22, checks: ['explicit project selection', 'all 22 scoped questions', 'project-specific citations and source links', 'source switching clears conversation', 'no cross-project fallback', 'two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'Enter send and Shift+Enter newline', 'clear', 'reload', 'homepage architecture removed', 'public notes', 'responsive 1440/390/320', 'mobile navigation selection, Escape and focus', 'mobile preset questions', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
   } finally {
     if (browser) await browser.close()
     await new Promise(resolve => server.close(resolve))
