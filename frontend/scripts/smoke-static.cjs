@@ -48,8 +48,7 @@ async function main() {
       assert.equal(await projects.nth(index).locator('.project-flow').isVisible(), true)
     }
     assert.equal(await page.locator('.question-list button').count(), 10)
-    await page.locator('.architecture img').scrollIntoViewIfNeeded()
-    await page.waitForFunction(() => { const image = document.querySelector('.architecture img'); return image.complete && image.naturalWidth > 0 })
+    assert.equal(await page.locator('#architecture, a[href="#architecture"]').count(), 0)
     for (let index = 0; index < 10; index++) {
       await page.locator('.question-list button').nth(index).click()
       assert.equal(await page.locator('.bubble.assistant').count(), index + 1)
@@ -118,7 +117,7 @@ async function main() {
     assert.deepEqual(externalRequests, [])
     assert.deepEqual(failedResponses, [])
     assert.deepEqual(errors, [])
-    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'Enter send and Shift+Enter newline', 'clear', 'reload', 'architecture lazy loading', 'public notes', 'responsive 1440/390/320', 'mobile navigation selection, Escape and focus', 'mobile preset questions', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
+    console.log(JSON.stringify({ result: 'PASS', basePath: prefix || '/', presetQuestions: 10, checks: ['two featured projects and source links', 'expand project details', 'citations', 'dialog close and Escape', 'focus restoration', 'unknown question', 'keyword input', 'Enter send and Shift+Enter newline', 'clear', 'reload', 'homepage architecture removed', 'public notes', 'responsive 1440/390/320', 'mobile navigation selection, Escape and focus', 'mobile preset questions', 'no API or external requests', 'no resource or JavaScript errors'], screenshots: shots }, null, 2))
   } finally {
     if (browser) await browser.close()
     await new Promise(resolve => server.close(resolve))

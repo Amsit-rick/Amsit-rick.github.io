@@ -1,7 +1,7 @@
 "use client"
 
 import { FormEvent, useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowRight, ArrowUp, ArrowUpRight, BookOpen, Bot, Braces, FileCode2, Github, Layers3, MessageSquare, Send, ShieldCheck, Trash2, X } from 'lucide-react'
+import { ArrowDown, ArrowRight, ArrowUp, ArrowUpRight, BookOpen, Bot, Braces, FileCode2, Github, MessageSquare, Send, ShieldCheck, Trash2, X } from 'lucide-react'
 import { demoAnswers, evidence, EvidenceId, findDemoAnswer } from './demo-data'
 import LivePortfolio from './live-portfolio'
 import { featuredProjects } from './featured-projects'
@@ -57,8 +57,7 @@ function StaticPortfolio() {
 
       <section className="engineering-section" id="evidence"><div className="container">
         <SectionHeading number="02" label="BEHIND THE BUILD" title="好的实现，经得起继续追问。" description="这个作品集助手本身，也是一次工程实践。下面记录它的设计取舍、实现位置和当前边界。"><a className="button button-secondary button-small" href={asset('evidence/project-notes.md')}><BookOpen size={15}/>阅读完整说明<ArrowUpRight size={14}/></a></SectionHeading>
-        <div className="engineering-layout"><div className="engineering-context"><div className="context-icon"><Braces size={26} strokeWidth={1.5}/></div><h3>从“做了什么”<br/>到“为什么这样做”。</h3><p>混合检索如何降级？引用如何约束？SSE 的实际边界在哪里？每篇笔记都对应具体模块。</p><div className="context-tags"><Badge>设计取舍</Badge><Badge>代码位置</Badge><Badge>已知限制</Badge></div><a className="inline-link" href="#architecture">查看系统架构<ArrowDown size={14}/></a></div><div className="evidence-list">{evidenceIds.map((id, index) => <button key={id} onClick={() => openEvidence(id)}><span className="evidence-number mono">{String(index + 1).padStart(2, '0')}</span><span className="evidence-item-copy"><strong>{evidence[id].title}</strong><small>{evidence[id].location}</small></span><ArrowUpRight size={17}/></button>)}</div></div>
-        <div className="architecture" id="architecture"><div className="architecture-heading"><div><div className="eyebrow">SYSTEM OVERVIEW</div><h3>浏览器里的展示，服务端的能力。</h3></div><Badge><Layers3 size={13}/>作品集助手架构</Badge></div><a className="architecture-image" href={asset('evidence/architecture.svg')} target="_blank" rel="noreferrer" aria-label="在新窗口查看完整系统架构图"><img src={asset('evidence/architecture.svg')} width="1040" height="540" loading="lazy" alt="公开静态站在浏览器内匹配预置问答；完整本地版本由 Next.js 调用 FastAPI，再连接 DeepSeek、MySQL、Redis、Qdrant 和 FastEmbed。"/><span className="image-expand"><ArrowUpRight size={15}/>查看完整架构图</span></a><p className="section-note">图中下半部分为本地完整版本。本公开站点仅提供静态展示与预置问答。</p></div>
+        <div className="engineering-layout"><div className="engineering-context"><div className="context-icon"><Braces size={26} strokeWidth={1.5}/></div><h3>从“做了什么”<br/>到“为什么这样做”。</h3><p>混合检索如何降级？引用如何约束？SSE 的实际边界在哪里？每篇笔记都对应具体模块。</p><div className="context-tags"><Badge>设计取舍</Badge><Badge>代码位置</Badge><Badge>已知限制</Badge></div></div><div className="evidence-list">{evidenceIds.map((id, index) => <button key={id} onClick={() => openEvidence(id)}><span className="evidence-number mono">{String(index + 1).padStart(2, '0')}</span><span className="evidence-item-copy"><strong>{evidence[id].title}</strong><small>{evidence[id].location}</small></span><ArrowUpRight size={17}/></button>)}</div></div>
       </div></section>
 
       <section className="portfolio-section container" id="ask">
